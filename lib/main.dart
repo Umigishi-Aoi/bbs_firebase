@@ -70,6 +70,9 @@ class _MyWidgetState extends State<MyWidget> {
                           .signInWithRedirect(githubProvider);
                     } catch (e) {
                       error = e.toString();
+                      setState(() {
+                        
+                      });
                     }
                   },
                   child: const Text('GitHub ログイン'),
