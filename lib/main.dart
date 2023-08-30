@@ -38,6 +38,7 @@ class MyWidget extends StatefulWidget {
 
 class _MyWidgetState extends State<MyWidget> {
   auth.User? currentUser;
+  String error = 'no error';
   @override
   void initState() {
     auth.FirebaseAuth.instance.authStateChanges().listen((auth.User? user) {
@@ -56,6 +57,7 @@ class _MyWidgetState extends State<MyWidget> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
+              Text(error),
               SizedBox(
                 width: 300,
                 height: 150,
@@ -63,8 +65,12 @@ class _MyWidgetState extends State<MyWidget> {
                   onPressed: () async {
                     auth.GithubAuthProvider githubProvider =
                         auth.GithubAuthProvider();
-                    await auth.FirebaseAuth.instance
-                        .signInWithRedirect(githubProvider);
+                    try {
+                      await auth.FirebaseAuth.instance
+                          .signInWithRedirect(githubProvider);
+                    } catch (e) {
+                      error = e.toString();
+                    }
                   },
                   child: const Text('GitHub ログイン'),
                 ),
